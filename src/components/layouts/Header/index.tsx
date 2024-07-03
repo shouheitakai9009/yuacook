@@ -1,19 +1,22 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Moon, Sun } from "lucide-react";
+import { Button } from "@/components/shadcn/ui/button";
+import { Moon, Plus, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
-export const Header: React.FC = () => {
+interface Props {
+  isHiddenAdd?: boolean;
+}
+
+export const Header: React.FC<Props> = ({ isHiddenAdd = false }) => {
   const { theme, systemTheme, setTheme } = useTheme();
 
   const isDark =
     theme === "dark" || (theme === "system" && systemTheme === "dark");
 
   return (
-    <header className="h-12 bg-primary flex justify-between items-center">
-      <div className="w-14">&emsp;</div>
-      <h1 className="font-bold text-xl text-black">yuacook</h1>
+    <header className="h-12 bg-primary grid grid-cols-[56px_1fr_56px] place-items-center items-center">
       <Button
         variant="ghost"
         className="text-black"
@@ -21,6 +24,16 @@ export const Header: React.FC = () => {
       >
         {isDark ? <Sun /> : <Moon />}
       </Button>
+      <h1 className="font-bold text-xl text-black">yuacook</h1>
+      {!isHiddenAdd ? (
+        <Link href="/recipes/new">
+          <Button type="button" variant="ghost" className="text-black">
+            <Plus />
+          </Button>
+        </Link>
+      ) : (
+        <p>&emsp;</p>
+      )}
     </header>
   );
 };

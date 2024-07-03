@@ -8,7 +8,7 @@ export default function RecipesLayout({
   return (
     <main>
       <Header />
-      <article>{children}</article>
+      <article className="pb-4">{children}</article>
     </main>
   );
 }
