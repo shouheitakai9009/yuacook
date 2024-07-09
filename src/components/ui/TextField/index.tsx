@@ -1,5 +1,5 @@
 import { Input, InputProps } from "@/components/shadcn/ui/input";
-import { cn } from "@/lib/utils";
+import { cn } from "@/libs/utils";
 import React from "react";
 
 export interface TextFieldProps extends InputProps {
