@@ -7,6 +7,13 @@ export const get = async <TResponse = Response, TParams = {}>(
   return base<TParams>({ endpoint, method: "GET", params });
 };
 
+export const post = async <TResponse = Response, TParams = {}>(
+  endpoint: string,
+  params?: TParams
+): Promise<TResponse> => {
+  return base<TParams>({ endpoint, method: "POST", params });
+};
+
 const base = async <Params = {}>({
   endpoint,
   method,

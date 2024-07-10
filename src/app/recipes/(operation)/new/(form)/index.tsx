@@ -10,6 +10,12 @@ import { RecipeNameField } from "./(fields)/RecipeNameField";
 import { ImageUploadField } from "./(fields)/ImageUploadField";
 import { Material } from "@/types/material";
 import { MaterialsField } from "./(fields)/(materials)";
+import * as api from "@/libs/api";
+import { useAPIMutation } from "@/hooks/useAPIMutation";
+import { Recipe } from "@prisma/client";
+import { useToasty } from "@/hooks/useToasty";
+import { Spinner, SpinnerWrapper } from "@/components/ui/Spinner";
+import { useRouter } from "next/navigation";
 
 export const defaultMaterial: Material = {
   name: "",
@@ -18,6 +24,9 @@ export const defaultMaterial: Material = {
 };
 
 export const Form: React.FC = ({}) => {
+  const router = useRouter();
+  const { successOnToast } = useToasty();
+
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,10 +35,16 @@ export const Form: React.FC = ({}) => {
     },
   });
 
+  const { mutation: execNewRecipe, isLoading } = useAPIMutation({
+    requestFn: (params) => api.post("/api/recipes/new", params),
+  });
+
   const onSubmit = async (
     values: z.infer<typeof formSchema>
   ): Promise<void> => {
-    console.log(values);
+    const response = await execNewRecipe<Recipe>(values);
+    successOnToast(`${response.name} レシピを作成したよ！`);
+    router.push("/recipes");
   };
 
   return (
@@ -44,6 +59,9 @@ export const Form: React.FC = ({}) => {
           </Button>
         </div>
       </form>
+      <SpinnerWrapper>
+        {isLoading && <Spinner message="レシピを作成中です..." />}
+      </SpinnerWrapper>
     </ShadForm>
   );
 };

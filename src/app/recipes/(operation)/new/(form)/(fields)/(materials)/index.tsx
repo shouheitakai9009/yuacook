@@ -85,7 +85,7 @@ export const MaterialsField: React.FC<Props> = ({ form }) => {
       {fields.map((_, index) => {
         const { isLast, messages } = getFieldState(index);
         return (
-          <>
+          <section key={index}>
             <FieldWrapper index={index} isLast={isLast}>
               <NameField index={index} form={form} />
               <AmountField index={index} form={form} />
@@ -101,7 +101,7 @@ export const MaterialsField: React.FC<Props> = ({ form }) => {
               )}
             </FieldWrapper>
             <ErrorMessage body={messages} />
-          </>
+          </section>
         );
       })}
       <div className="flex justify-center">

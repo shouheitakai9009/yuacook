@@ -1,7 +1,6 @@
 "use client";
 
 import { FormControl, FormField, FormItem } from "@/components/shadcn/ui/form";
-import { TextField } from "@/components/ui/TextField";
 import { FormType } from "../../schema";
 import { UseFormReturn } from "react-hook-form";
 import {
@@ -13,7 +12,6 @@ import {
 } from "@/components/shadcn/ui/select";
 import { cn } from "@/libs/utils";
 import { useFetchUnits } from "@/hooks/useFetchUnits";
-import { Suspense } from "react";
 
 interface Props {
   index: number;
@@ -43,17 +41,6 @@ export const UnitField: React.FC<Props> = ({ index, form }) => {
                 <SelectValue placeholder="g" />
               </SelectTrigger>
               <SelectContent>
-                <Suspense
-                  fallback={
-                    <span className="text-sm py-4 px-2">読み込み中..</span>
-                  }
-                >
-                  {data?.map((unit, index) => (
-                    <SelectItem key={index} value={unit.name}>
-                      {unit.name}
-                    </SelectItem>
-                  ))}
-                </Suspense>
                 {!data || isFetching ? (
                   <span className="text-sm py-4 px-2">読み込み中..</span>
                 ) : (
