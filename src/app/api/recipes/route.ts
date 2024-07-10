@@ -28,8 +28,12 @@ function getBodySchema() {
   });
 }
 
-export async function GET(request: Request) {
-  const recipes = await prisma.recipe.findMany();
+export async function GET(_: Request) {
+  const recipes = await prisma.recipe.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
   return new Response(JSON.stringify(recipes));
 }
 
