@@ -9,24 +9,25 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/shadcn/ui/card";
+import { Recipe } from "@prisma/client";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
-  title: string;
-  imageUrl?: string;
+  recipe: Recipe;
 }
 
-export const RecipeItem: React.FC<Props> = ({ title, imageUrl }) => {
+export const RecipeItem: React.FC<Props> = ({ recipe }) => {
   return (
     <Card className="w-full">
       <CardHeader className="h-24 overflow-hidden">
-        <CardTitle>{title}</CardTitle>
+        <CardTitle>{recipe.name}</CardTitle>
       </CardHeader>
       <CardContent>
         <AspectRatio ratio={4 / 3}>
           <Image
             src="/images/noimage.png"
-            alt={title}
+            alt={recipe.name}
             width={400}
             height={160}
             className="object-cover"
@@ -34,7 +35,9 @@ export const RecipeItem: React.FC<Props> = ({ title, imageUrl }) => {
         </AspectRatio>
       </CardContent>
       <CardFooter className="flex justify-center">
-        <Button>詳細を見る</Button>
+        <Link href={`/recipes/${recipe.id}`}>
+          <Button type="button">詳細を見る</Button>
+        </Link>
       </CardFooter>
     </Card>
   );

@@ -24,7 +24,9 @@ export const Header: React.FC<Props> = ({ isHiddenAdd = false }) => {
       >
         {isDark ? <Sun /> : <Moon />}
       </Button>
-      <h1 className="font-bold text-xl text-black">yuacook</h1>
+      <Link href="/recipes">
+        <h1 className="font-bold text-xl text-black">yuacook</h1>
+      </Link>
       {!isHiddenAdd ? (
         <Link href="/recipes/new">
           <Button type="button" variant="ghost" className="text-black">

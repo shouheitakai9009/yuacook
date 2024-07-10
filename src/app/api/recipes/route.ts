@@ -28,6 +28,11 @@ function getBodySchema() {
   });
 }
 
+export async function GET(request: Request) {
+  const recipes = await prisma.recipe.findMany();
+  return new Response(JSON.stringify(recipes));
+}
+
 export async function POST(request: Request) {
   const result = await getBodySchema().safeParse(await request.json());
   if (!result.success) {
