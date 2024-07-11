@@ -11,8 +11,8 @@ import { Skeleton } from "@/components/shadcn/ui/skeleton";
 
 export const RecipeItemSkelton: React.FC = () => {
   return (
-    <Card className="w-full h-52">
-      <CardHeader className="h-20 overflow-hidden line-clamp-2">
+    <Card className="w-full h-54">
+      <CardHeader className="h-24 overflow-hidden line-clamp-2">
         <CardTitle className="text-xl flex flex-col gap-y-1">
           <Skeleton className="w-full h-4" />
           <Skeleton className="w-[70%] h-4" />

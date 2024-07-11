@@ -19,10 +19,10 @@ interface Props {
 
 export const RecipeItem: React.FC<Props> = ({ recipe }) => {
   return (
-    <Link href={`/recipes/${recipe.id}`} className="h-52">
+    <Link href={`/recipes/${recipe.id}`} className="h-54">
       <Card className="w-full">
-        <CardHeader className="h-20 overflow-hidden line-clamp-2">
-          <CardTitle className="text-xl">{recipe.name}</CardTitle>
+        <CardHeader className="h-24 overflow-hidden">
+          <CardTitle className="text-xl line-clamp-2">{recipe.name}</CardTitle>
         </CardHeader>
         <CardContent>
           <AspectRatio ratio={4 / 3}>
