@@ -1,4 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Recipe } from "@prisma/client";
+import { NextRequest } from "next/server";
 import { z } from "zod";
 
 const prisma = new PrismaClient();
@@ -28,12 +29,31 @@ function getBodySchema() {
   });
 }
 
-export async function GET(_: Request) {
-  const recipes = await prisma.recipe.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+
+  let recipes: Recipe[] = [];
+  const materialName = searchParams.get("materialName");
+  if (materialName) {
+    recipes = await prisma.recipe.findMany({
+      where: {
+        materials: {
+          some: {
+            name: materialName,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  } else {
+    recipes = await prisma.recipe.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
   return new Response(JSON.stringify(recipes));
 }
 

@@ -7,7 +7,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
 } from "@/components/shadcn/ui/command";
 import {
   Popover,
@@ -16,32 +15,35 @@ import {
 } from "@/components/shadcn/ui/popover";
 import * as React from "react";
 import { Button } from "@/components/shadcn/ui/button";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/libs/utils";
+import { ChevronsUpDown } from "lucide-react";
+import { useFetchMaterials } from "@/hooks/useFetchMaterials";
+import { useCallback, useMemo, useState } from "react";
 
-const foods: Array<{ id: number; label: string }> = [
-  { id: 1, label: "にんじん" },
-  { id: 2, label: "大根" },
-  { id: 3, label: "きゅうり" },
-  { id: 4, label: "はまぐり" },
-  { id: 5, label: "いんげん" },
-  { id: 6, label: "アスパラガス" },
-  { id: 7, label: "ハム" },
-];
+interface Props {
+  selectedMaterial: string | null;
+  selectMaterial: (material: string) => void;
+}
 
-export const SearchBox = () => {
-  const [open, setOpen] = React.useState(false);
-  const [selectedFood, setSelectedFood] = React.useState<{
-    id: number;
-    label: string;
-  } | null>(null);
+export const SearchBox: React.FC<Props> = ({
+  selectedMaterial,
+  selectMaterial,
+}) => {
+  const [open, setOpen] = useState(false);
 
-  const handleSelect = React.useCallback(
-    (food: { id: number; label: string }) => {
-      setSelectedFood(food);
+  const { data } = useFetchMaterials();
+
+  const uniqMaterialNames = useMemo(() => {
+    if (!data) return [];
+    const names = new Set(data.map((m) => m.name));
+    return Array.from(names);
+  }, [data]);
+
+  const handleSelect = useCallback(
+    (material: string) => {
+      selectMaterial(material);
       setOpen(false);
     },
-    [open, selectedFood]
+    [selectMaterial]
   );
 
   return (
@@ -53,8 +55,8 @@ export const SearchBox = () => {
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {selectedFood
-            ? foods.find((food) => food.id === selectedFood.id)?.label
+          {selectedMaterial
+            ? data?.find((m) => m.name === selectedMaterial)?.name
             : "食材からレシピをさがす"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -65,13 +67,10 @@ export const SearchBox = () => {
           <CommandList>
             <CommandEmpty>見つかりませんでした</CommandEmpty>
             <CommandGroup heading="食材一覧">
-              {foods.map((food) => (
+              {uniqMaterialNames.map((name) => (
                 <>
-                  <CommandItem
-                    key={food.id}
-                    onSelect={() => handleSelect(food)}
-                  >
-                    {food.label}
+                  <CommandItem key={name} onSelect={() => handleSelect(name)}>
+                    {name}
                   </CommandItem>
                 </>
               ))}

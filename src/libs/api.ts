@@ -23,8 +23,11 @@ const base = async <Params = {}>({
   method: Method;
   params?: Params;
 }) => {
+  const queryParams =
+    method === "GET" && params ? new URLSearchParams(params) : "";
   const body = method === "GET" ? undefined : JSON.stringify(params ?? {});
-  const res = await fetch(endpoint, {
+  console.log(queryParams, body);
+  const res = await fetch(`${endpoint}?${queryParams}`, {
     method,
     headers: {
       "Content-Type": "application/json",

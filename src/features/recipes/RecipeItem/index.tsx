@@ -31,7 +31,7 @@ export const RecipeItem: React.FC<Props> = ({ recipe }) => {
               alt={recipe.name}
               width={400}
               height={200}
-              className="object-cover aspect-auto rounded-md"
+              className="object-cover aspect-auto rounded-sm"
             />
           </AspectRatio>
         </CardContent>
