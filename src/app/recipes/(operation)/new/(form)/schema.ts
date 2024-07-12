@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const formSchema = z.object({
   recipeName: z.string().min(1, "レシピ名を入力してください"),
-  image: z.custom<FileList>().refine((file) => file.length !== 0, {
+  image: z.any().refine((file) => file.length !== 0, {
     message: "レシピ画像をアップロードしてください",
   }),
   materials: z.array(

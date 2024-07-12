@@ -5,9 +5,9 @@ import * as api from "@/libs/api";
 import { Material, Recipe } from "@prisma/client";
 
 export const generateRecipeDetailKey = (params?: Params) =>
-  ["recipes", "detail", params] as const;
+  [fetchRecipeDetailKey, params] as const;
 
-export const fetchRecipessKey = ["recipes", "detail"];
+export const fetchRecipeDetailKey = ["recipes", "detail"];
 
 type Params = {
   id: string | string[];

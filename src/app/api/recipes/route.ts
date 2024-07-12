@@ -10,9 +10,7 @@ function getBodySchema() {
       .string()
       .min(1, "レシピ名を入力してください")
       .max(255, "レシピ名は255文字以内で入力してください"),
-    // image: z.custom<FileList>().refine((file) => file.length !== 0, {
-    //   message: "レシピ画像をアップロードしてください",
-    // }),
+    image: z.string(),
     materials: z.array(
       z.object({
         name: z
@@ -65,6 +63,7 @@ export async function POST(request: Request) {
   const newRecipe = await prisma.recipe.create({
     data: {
       name: result.data.recipeName,
+      imageUrl: result.data.image,
     },
   });
   await prisma.material.createMany({

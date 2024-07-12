@@ -24,6 +24,13 @@ export const RecipeItems: React.FC<Props> = ({ selectedMaterial }) => {
             <RecipeItem key={index} recipe={recipe} />
           ))}
       </div>
+      {!isFetching && recipes?.length === 0 && (
+        <p className="flex justify-center items-center h-[80vh] text-sm text-gray-500">
+          右上の＋アイコンを押して、
+          <br />
+          自分だけのレシピを登録しよう
+        </p>
+      )}
     </Container>
   );
 };

@@ -7,6 +7,9 @@ const nextConfig = {
       permanent: true,
     },
   ],
+  images: {
+    domains: ["p5izgpztbiyhnjkf.public.blob.vercel-storage.com"],
+  },
 };
 
 export default nextConfig;

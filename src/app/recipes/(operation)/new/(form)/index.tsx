@@ -3,21 +3,14 @@
 import { Button } from "@/components/shadcn/ui/button";
 import { Form as ShadForm } from "@/components/shadcn/ui/form";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormType, formSchema } from "./schema";
 import { RecipeNameField } from "./(fields)/RecipeNameField";
 import { ImageUploadField } from "./(fields)/ImageUploadField";
 import { Material } from "@/types/material";
 import { MaterialsField } from "./(fields)/(materials)";
-import * as api from "@/libs/api";
-import { useAPIMutation } from "@/hooks/useAPIMutation";
-import { Recipe } from "@prisma/client";
-import { useToasty } from "@/hooks/useToasty";
 import { Spinner, SpinnerWrapper } from "@/components/ui/Spinner";
-import { useRouter } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
-import { fetchRecipessKey } from "@/hooks/useFetchRecipes";
+import { useRegistration } from "./useRegister";
 
 export const defaultMaterial: Material = {
   name: "",
@@ -26,10 +19,6 @@ export const defaultMaterial: Material = {
 };
 
 export const Form: React.FC = ({}) => {
-  const router = useRouter();
-  const { successOnToast } = useToasty();
-  const queryClient = useQueryClient();
-
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,18 +27,7 @@ export const Form: React.FC = ({}) => {
     },
   });
 
-  const { mutation: execNewRecipe, isLoading } = useAPIMutation({
-    requestFn: (params) => api.post("/api/recipes", params),
-  });
-
-  const onSubmit = async (
-    values: z.infer<typeof formSchema>
-  ): Promise<void> => {
-    const response = await execNewRecipe<Recipe>(values);
-    queryClient.invalidateQueries({ queryKey: fetchRecipessKey });
-    successOnToast(`${response.name} レシピを作成したよ！`);
-    router.push("/recipes");
-  };
+  const { isLoading, onSubmit } = useRegistration();
 
   return (
     <ShadForm {...form}>

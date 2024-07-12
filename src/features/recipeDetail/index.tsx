@@ -19,10 +19,26 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/shadcn/ui/table";
+import { AspectRatio } from "@/components/shadcn/ui/aspect-ratio";
+import { Skeleton } from "@/components/shadcn/ui/skeleton";
 
 export const RecipeDetail: React.FC = () => {
   const { id } = useParams();
-  const { data } = useFetchRecipeDetail(id ? { id } : undefined);
+  const { data, isLoading } = useFetchRecipeDetail(id ? { id } : undefined);
+
+  if (isLoading)
+    return (
+      <Container className="py-4 flex flex-col gap-y-4">
+        <Skeleton className="w-full h-5" />
+        <Skeleton className="w-[80%] h-8" />
+        <Skeleton className="w-full h-64" />
+        <div className="flex flex-col gap-y-2">
+          <Skeleton className="w-[80%] h-8" />
+          <Skeleton className="w-[60%] h-8" />
+          <Skeleton className="w-[40%] h-8" />
+        </div>
+      </Container>
+    );
 
   return (
     <Container className="py-4 flex flex-col gap-y-4">
@@ -39,13 +55,18 @@ export const RecipeDetail: React.FC = () => {
       </Breadcrumb>
 
       <h1 className="text-2xl font-bold">{data?.name}</h1>
-      <Image
-        src="/images/potof.jpeg"
-        alt={data?.name ?? ""}
-        width={400}
-        height={200}
-        className="object-cover aspect-auto rounded-sm"
-      />
+      <AspectRatio
+        ratio={4 / 3}
+        className="overflow-hidden flex items-center justify-center rounded-sm"
+      >
+        <Image
+          src={data?.imageUrl ?? "/images/noimage.png"}
+          alt={data?.name ?? ""}
+          width={400}
+          height={200}
+          className="object-cover aspect-auto rounded-sm"
+        />
+      </AspectRatio>
       <Table>
         <TableHeader>
           <TableRow>

@@ -25,13 +25,17 @@ export const RecipeItem: React.FC<Props> = ({ recipe }) => {
           <CardTitle className="text-xl line-clamp-2">{recipe.name}</CardTitle>
         </CardHeader>
         <CardContent>
-          <AspectRatio ratio={4 / 3}>
+          <AspectRatio
+            ratio={4 / 3}
+            className="overflow-hidden flex items-center justify-center rounded-sm"
+          >
             <Image
-              src="/images/potof.jpeg"
+              src={recipe.imageUrl ?? "/images/noimage.png"}
               alt={recipe.name}
               width={400}
               height={200}
-              className="object-cover aspect-auto rounded-sm"
+              quality={30}
+              className="object-cover"
             />
           </AspectRatio>
         </CardContent>

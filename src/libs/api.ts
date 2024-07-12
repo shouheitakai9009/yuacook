@@ -25,8 +25,12 @@ const base = async <Params = {}>({
 }) => {
   const queryParams =
     method === "GET" && params ? new URLSearchParams(params) : "";
-  const body = method === "GET" ? undefined : JSON.stringify(params ?? {});
-  console.log(queryParams, body);
+  const body =
+    method === "GET"
+      ? undefined
+      : params instanceof File
+      ? params
+      : JSON.stringify(params ?? {});
   const res = await fetch(`${endpoint}?${queryParams}`, {
     method,
     headers: {
