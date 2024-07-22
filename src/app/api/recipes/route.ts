@@ -1,5 +1,5 @@
-import { PrismaClient, Recipe } from "@prisma/client";
-import { NextRequest } from "next/server";
+import { TO_TASTE_NAME } from "@/constants/ui";
+import { Material, PrismaClient, Recipe } from "@prisma/client";
 import { z } from "zod";
 
 const prisma = new PrismaClient();
@@ -12,17 +12,24 @@ function getBodySchema() {
       .max(255, "レシピ名は255文字以内で入力してください"),
     image: z.string(),
     materials: z.array(
-      z.object({
-        name: z
-          .string()
-          .min(1, "材料名を入力してください")
-          .max(255, "材料名は255文字以内で入力してください"),
-        amount: z
-          .string()
-          .min(1, "分量を入力してください")
-          .max(10, "分量は10文字以内で入力してください"),
-        unit: z.string(),
-      })
+      z
+        .object({
+          name: z
+            .string()
+            .min(1, "材料名を入力してください")
+            .max(255, "材料名は255文字以内で入力してください"),
+          amount: z.string().max(10, "分量は10文字以内で入力してください"),
+          unit: z.string(),
+        })
+        .refine(
+          (data) => {
+            return !(data.unit !== TO_TASTE_NAME && data.amount === "");
+          },
+          {
+            message: "分量を入力してください",
+            path: ["amount"],
+          }
+        )
     ),
   });
 }
@@ -63,13 +70,14 @@ export async function POST(request: Request) {
   const newRecipe = await prisma.recipe.create({
     data: {
       name: result.data.recipeName,
-      imageUrl: result.data.image,
+      imageUrl: result.data.image ?? null,
     },
   });
   await prisma.material.createMany({
     data: result.data.materials.map((m) => ({
       recipeId: newRecipe.id,
       name: m.name,
+      isToTaste: m.unit === TO_TASTE_NAME,
       amount: m.amount,
       unitName: m.unit,
     })),

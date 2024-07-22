@@ -30,8 +30,15 @@ export const useRegistration = () => {
   const onSubmit = async (
     values: z.infer<typeof formSchema>
   ): Promise<void> => {
-    const image = await onImageUpload(values.image[0]);
-    await onRegistNewRecipe(values, image.url);
+    let image: PutBlobResult | null = null;
+    if (
+      values.image &&
+      Array.isArray(values.image) &&
+      values.image.length > 0
+    ) {
+      image = await onImageUpload(values.image[0]);
+    }
+    await onRegistNewRecipe(values, image?.url);
   };
 
   const onImageUpload = async (file: File): Promise<PutBlobResult> => {
@@ -41,11 +48,11 @@ export const useRegistration = () => {
 
   const onRegistNewRecipe = async (
     values: z.infer<typeof formSchema>,
-    imageUrl: string
+    imageUrl?: string
   ): Promise<void> => {
     const response = await execNewRecipe<Recipe>({
       ...values,
-      image: imageUrl,
+      image: imageUrl ?? "",
     });
     queryClient.invalidateQueries({ queryKey: fetchRecipessKey });
     successOnToast(`${response.name} レシピを作成したよ！`);

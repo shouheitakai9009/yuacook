@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Material" ADD COLUMN     "isToTaste" BOOLEAN NOT NULL DEFAULT false,
+ALTER COLUMN "amount" DROP NOT NULL;

@@ -21,10 +21,27 @@ import {
 } from "@/components/shadcn/ui/table";
 import { AspectRatio } from "@/components/shadcn/ui/aspect-ratio";
 import { Skeleton } from "@/components/shadcn/ui/skeleton";
+import { Button } from "@/components/shadcn/ui/button";
+import { Spinner, SpinnerWrapper } from "@/components/ui/Spinner";
+import { useDelete } from "@/app/recipes/[id]/useDelete";
+import { useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/shadcn/ui/alert-dialog";
 
 export const RecipeDetail: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useFetchRecipeDetail(id ? { id } : undefined);
+
+  const { isLoading: isDeleting, onDelete } = useDelete();
 
   if (isLoading)
     return (
@@ -42,6 +59,9 @@ export const RecipeDetail: React.FC = () => {
 
   return (
     <Container className="py-4 flex flex-col gap-y-4">
+      <SpinnerWrapper>
+        {isDeleting && <Spinner message="レシピを削除中です..." />}
+      </SpinnerWrapper>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -85,6 +105,29 @@ export const RecipeDetail: React.FC = () => {
           ))}
         </TableBody>
       </Table>
+      <AlertDialog>
+        <AlertDialogTrigger>
+          <Button variant="ghost" className="text-destructive" disabled={!data}>
+            レシピを削除
+          </Button>
+        </AlertDialogTrigger>
+        {data && (
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>本当に削除して良いですか？</AlertDialogTitle>
+              <AlertDialogDescription>
+                このレシピを削除すると元に戻すことはできません。さらに、登録していた材料や単位も削除されますので検索に出てこなくなります。
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>キャンセル</AlertDialogCancel>
+              <AlertDialogAction onClick={() => onDelete(data.id)}>
+                削除する
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        )}
+      </AlertDialog>
     </Container>
   );
 };

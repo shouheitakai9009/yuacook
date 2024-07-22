@@ -14,3 +14,16 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
 
   return new Response(JSON.stringify(recipeWithMaterials));
 }
+
+export async function DELETE(
+  _: Request,
+  { params }: { params: { id: string } }
+) {
+  await prisma.recipe.delete({
+    where: {
+      id: parseInt(params.id),
+    },
+  });
+
+  return new Response(JSON.stringify({}));
+}

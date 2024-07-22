@@ -2,9 +2,9 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    theme_color: "#f0d238",
+    theme_color: "#facc15",
     background_color: "#ffffff",
-    display: "standalone",
+    display: "fullscreen",
     scope: "/",
     start_url: "/",
     name: "yuacook",
