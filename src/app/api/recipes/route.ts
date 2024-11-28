@@ -1,5 +1,5 @@
 import { TO_TASTE_NAME } from "@/constants/ui";
-import { Material, PrismaClient, Recipe } from "@prisma/client";
+import { PrismaClient, Recipe } from "@prisma/client";
 import { z } from "zod";
 
 const prisma = new PrismaClient();
