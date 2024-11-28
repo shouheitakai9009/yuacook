@@ -1,15 +1,14 @@
 "use client";
 
 import { AspectRatio } from "@/components/shadcn/ui/aspect-ratio";
-import { Button } from "@/components/shadcn/ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/shadcn/ui/card";
 import { Recipe } from "@prisma/client";
+import isEmpty from "lodash/isEmpty";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -30,7 +29,11 @@ export const RecipeItem: React.FC<Props> = ({ recipe }) => {
             className="overflow-hidden flex items-center justify-center rounded-sm"
           >
             <Image
-              src={recipe.imageUrl ?? "/images/noimage.png"}
+              src={
+                recipe?.imageUrl && !isEmpty(recipe?.imageUrl)
+                  ? recipe.imageUrl
+                  : "/images/noimage.png"
+              }
               alt={recipe.name}
               width={400}
               height={200}

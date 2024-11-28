@@ -24,7 +24,6 @@ import { Skeleton } from "@/components/shadcn/ui/skeleton";
 import { Button } from "@/components/shadcn/ui/button";
 import { Spinner, SpinnerWrapper } from "@/components/ui/Spinner";
 import { useDelete } from "@/app/recipes/[id]/useDelete";
-import { useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,6 +35,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/shadcn/ui/alert-dialog";
+import isEmpty from "lodash/isEmpty";
 
 export const RecipeDetail: React.FC = () => {
   const { id } = useParams();
@@ -80,7 +80,11 @@ export const RecipeDetail: React.FC = () => {
         className="overflow-hidden flex items-center justify-center rounded-sm"
       >
         <Image
-          src={data?.imageUrl ?? "/images/noimage.png"}
+          src={
+            data?.imageUrl && !isEmpty(data?.imageUrl)
+              ? data.imageUrl
+              : "/images/noimage.png"
+          }
           alt={data?.name ?? ""}
           width={400}
           height={200}

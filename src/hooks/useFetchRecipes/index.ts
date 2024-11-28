@@ -20,4 +20,5 @@ export const useFetchRecipes = (params?: Params) =>
       const recipes = await api.get<Recipe[]>("/api/recipes", params);
       return recipes;
     },
+    staleTime: 1000 * 60 * 5,
   });

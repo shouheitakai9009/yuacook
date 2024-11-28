@@ -1,4 +1,5 @@
 import { useAPIMutation } from "@/hooks/useAPIMutation";
+import { fetchMaterialsKey } from "@/hooks/useFetchMaterials";
 import { fetchRecipessKey } from "@/hooks/useFetchRecipes";
 import { useToasty } from "@/hooks/useToasty";
 import * as api from "@/libs/api";
@@ -17,7 +18,8 @@ export const useDelete = () => {
 
   const onDelete = async (id: number): Promise<void> => {
     await mutation({ id });
-    queryClient.invalidateQueries({ queryKey: fetchRecipessKey });
+    await queryClient.invalidateQueries({ queryKey: fetchRecipessKey });
+    await queryClient.invalidateQueries({ queryKey: fetchMaterialsKey });
     successOnToast(`レシピを削除したよ！`);
     router.push("/recipes");
   };

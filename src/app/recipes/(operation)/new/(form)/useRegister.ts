@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useToasty } from "@/hooks/useToasty";
 import { useQueryClient } from "@tanstack/react-query";
 import { PutBlobResult } from "@vercel/blob";
+import { fetchMaterialsKey } from "@/hooks/useFetchMaterials";
 
 export const useRegistration = () => {
   const router = useRouter();
@@ -31,11 +32,7 @@ export const useRegistration = () => {
     values: z.infer<typeof formSchema>
   ): Promise<void> => {
     let image: PutBlobResult | null = null;
-    if (
-      values.image &&
-      Array.isArray(values.image) &&
-      values.image.length > 0
-    ) {
+    if (values.image instanceof FileList && values.image.length > 0) {
       image = await onImageUpload(values.image[0]);
     }
     await onRegistNewRecipe(values, image?.url);
@@ -54,7 +51,8 @@ export const useRegistration = () => {
       ...values,
       image: imageUrl ?? "",
     });
-    queryClient.invalidateQueries({ queryKey: fetchRecipessKey });
+    await queryClient.invalidateQueries({ queryKey: fetchRecipessKey });
+    await queryClient.invalidateQueries({ queryKey: fetchMaterialsKey });
     successOnToast(`${response.name} レシピを作成したよ！`);
     router.push("/recipes");
   };
