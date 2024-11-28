@@ -45,3 +45,10 @@ model Unit {
 
   @@unique([name])
 }
+
+model Memo {
+  id Int @id @default(autoincrement())
+  text String @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
