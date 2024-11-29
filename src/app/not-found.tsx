@@ -4,7 +4,7 @@ import { Header } from "@/components/layouts/Header";
 export default function NotFound() {
   return (
     <>
-      <Header isHiddenAdd />
+      <Header rightComponent={<p>&emsp;</p>} />
       <Container className="flex justify-center items-center flex-col gap-y-4 h-full">
         <h1 className="text-center text-4xl font-bold">404 - Not found</h1>
         <section>

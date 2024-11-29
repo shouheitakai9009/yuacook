@@ -23,7 +23,7 @@ import { AspectRatio } from "@/components/shadcn/ui/aspect-ratio";
 import { Skeleton } from "@/components/shadcn/ui/skeleton";
 import { Button } from "@/components/shadcn/ui/button";
 import { Spinner, SpinnerWrapper } from "@/components/ui/Spinner";
-import { useDelete } from "@/app/recipes/[id]/useDelete";
+import { useDelete } from "@/app/(pages)/recipes/[id]/useDelete";
 import {
   AlertDialog,
   AlertDialogAction,

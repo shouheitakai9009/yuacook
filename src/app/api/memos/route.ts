@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 
 const prisma = new PrismaClient();
@@ -19,7 +20,14 @@ export async function GET(_: Request) {
 export async function POST(request: Request) {
   const result = await getBodySchema().safeParse(await request.json());
   if (!result.success) {
-    return new Response(JSON.stringify(result.error), { status: 401 });
+    return NextResponse.json(
+      {
+        error: "入力された内容が不正です",
+      },
+      {
+        status: 401,
+      }
+    );
   }
 
   const newMemo = await prisma.memo.create({
@@ -28,5 +36,5 @@ export async function POST(request: Request) {
     },
   });
 
-  return new Response(JSON.stringify(newMemo));
+  return NextResponse.json(newMemo);
 }

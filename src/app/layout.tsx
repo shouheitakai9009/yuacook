@@ -28,10 +28,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={cn(inter.className, "bg-gray-50 dark:bg-slate-700")}>
+      <body className={cn(inter.className, "bg-gray-50")}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
