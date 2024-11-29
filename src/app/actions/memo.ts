@@ -2,7 +2,7 @@
 
 import { ApiError } from "@/hooks/useServerAction";
 import { Memo, PrismaClient } from "@prisma/client";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
 const prisma = new PrismaClient();
@@ -27,7 +27,7 @@ export async function saveMemo<P>(params: P) {
     },
   });
 
-  revalidateTag("memos");
+  revalidatePath("/memo");
 
   return { data: memo };
 }
