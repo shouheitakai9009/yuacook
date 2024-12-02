@@ -1,8 +1,8 @@
-import { MemoComponent } from "@/features/memo/components";
+import { MemoComponent } from '@/features/memo/components';
 
 export default async function MemoPage() {
-  const data = await fetch(`${process.env.BASE_URL}/api/memos`, {
-    method: "GET",
+  const data = await fetch(`http://localhost:3000/api/memos`, {
+    method: 'GET',
   });
 
   const memo = await data.json();

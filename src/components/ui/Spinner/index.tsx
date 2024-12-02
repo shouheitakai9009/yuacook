@@ -1,12 +1,12 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { LoaderCircle } from "lucide-react";
-import React, { PropsWithChildren } from "react";
+import { motion, AnimatePresence } from 'framer-motion';
+import { LoaderCircle } from 'lucide-react';
+import React, { PropsWithChildren } from 'react';
 
 export const SpinnerWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   return <AnimatePresence>{children}</AnimatePresence>;
 };
 
-interface SpinnerProps {
+export interface SpinnerProps {
   message?: string;
 }
 

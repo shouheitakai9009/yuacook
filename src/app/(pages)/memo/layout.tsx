@@ -1,6 +1,6 @@
-import { Header } from "@/components/layouts/Header";
-import { SaveButton } from "@/features/memo/components/SaveButton";
-import { TextProvider } from "@/features/memo/components/TextProvider";
+import { Header } from '@/components/layouts/Header';
+import { SaveButton } from '@/features/memo/components/SaveButton';
+import { TextProvider } from '@/features/memo/components/TextProvider';
 
 export default async function MemoLayout({
   children,

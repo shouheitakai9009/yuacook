@@ -1,13 +1,13 @@
 "use client";
 
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+import React, { PropsWithChildren, createContext, useContext, useState } from "react";
 
 const TextContext = createContext({
   text: "",
   setText: (text: string) => {},
 });
 
-export const TextProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+export const TextProvider: React.FC<PropsWithChildren<unknown>> = ({ children }) => {
   const [text, setText] = useState("");
 
   return (
