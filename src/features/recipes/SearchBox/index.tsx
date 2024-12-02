@@ -16,35 +16,27 @@ import {
 import * as React from "react";
 import { Button } from "@/components/shadcn/ui/button";
 import { ChevronsUpDown } from "lucide-react";
-import { useFetchMaterials } from "@/hooks/useFetchMaterials";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { Material } from "@prisma/client";
+import { handleSelectMaterial } from "@/app/actions/recipes";
 
 interface Props {
+  materials: Material[]
   selectedMaterial: string | null;
   selectMaterial: (material: string) => void;
 }
 
 export const SearchBox: React.FC<Props> = ({
+  materials,
   selectedMaterial,
   selectMaterial,
 }) => {
   const [open, setOpen] = useState(false);
 
-  const { data } = useFetchMaterials();
-
   const uniqMaterialNames = useMemo(() => {
-    if (!data) return [];
-    const names = new Set(data.map((m) => m.name));
+    const names = new Set(materials.map((m) => m.name));
     return Array.from(names);
-  }, [data]);
-
-  const handleSelect = useCallback(
-    (material: string) => {
-      selectMaterial(material);
-      setOpen(false);
-    },
-    [selectMaterial]
-  );
+  }, [materials]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -56,7 +48,7 @@ export const SearchBox: React.FC<Props> = ({
           className="w-full justify-between"
         >
           {selectedMaterial
-            ? data?.find((m) => m.name === selectedMaterial)?.name
+            ? materials.find((m) => m.name === selectedMaterial)?.name
             : "食材からレシピをさがす"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -69,7 +61,7 @@ export const SearchBox: React.FC<Props> = ({
             <CommandGroup heading="食材一覧">
               {uniqMaterialNames.map((name) => (
                 <>
-                  <CommandItem key={name} onSelect={() => handleSelect(name)}>
+                  <CommandItem key={name} onSelect={() => handleSelectMaterial(name)}>
                     {name}
                   </CommandItem>
                 </>

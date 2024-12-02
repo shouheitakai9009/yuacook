@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { revalidateTag } from "next/cache";
 
 const prisma = new PrismaClient();
 
@@ -25,5 +26,7 @@ export async function DELETE(
     },
   });
 
+  revalidateTag("recipes");
+  revalidateTag("materials");
   return new Response(JSON.stringify({}));
 }

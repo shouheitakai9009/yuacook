@@ -1,5 +1,6 @@
 import { TO_TASTE_NAME } from "@/constants/ui";
 import { PrismaClient, Recipe } from "@prisma/client";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
 const prisma = new PrismaClient();
@@ -39,7 +40,7 @@ export async function GET(request: Request) {
 
   let recipes: Recipe[] = [];
   const materialName = searchParams.get("materialName");
-  if (materialName) {
+  if (materialName !== null && materialName !== "null") {
     recipes = await prisma.recipe.findMany({
       where: {
         materials: {
@@ -85,5 +86,8 @@ export async function POST(request: Request) {
   const recipe = await prisma.recipe.findUnique({
     where: { id: newRecipe.id },
   });
+
+  revalidateTag("recipes");
+  revalidateTag("materials");
   return new Response(JSON.stringify(recipe));
 }

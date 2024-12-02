@@ -1,3 +1,5 @@
+'use client';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { LoaderCircle } from 'lucide-react';
 import React, { PropsWithChildren } from 'react';
