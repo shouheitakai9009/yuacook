@@ -2,10 +2,8 @@ import React from "react";
 import { Memo } from "@prisma/client";
 import { Textarea } from "./Textarea";
 
-interface Props {
-  memo: Memo;
-}
+export async function MemoArea({ promisedMemo }: { promisedMemo: Promise<Memo | null> }) {
+  const memo = await promisedMemo;
 
-export const MemoComponent = ({ memo }: Props) => {
   return <Textarea memo={memo} />;
-};
+}

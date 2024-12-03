@@ -1,24 +1,18 @@
 import { TO_TASTE_NAME } from "@/constants/ui";
-import { PrismaClient, Recipe } from "@prisma/client";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { PrismaClient } from "@prisma/client";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 
 const prisma = new PrismaClient();
 
 function getBodySchema() {
   return z.object({
-    recipeName: z
-      .string()
-      .min(1, "レシピ名を入力してください")
-      .max(255, "レシピ名は255文字以内で入力してください"),
+    recipeName: z.string().min(1, "レシピ名を入力してください").max(255, "レシピ名は255文字以内で入力してください"),
     image: z.string(),
     materials: z.array(
       z
         .object({
-          name: z
-            .string()
-            .min(1, "材料名を入力してください")
-            .max(255, "材料名は255文字以内で入力してください"),
+          name: z.string().min(1, "材料名を入力してください").max(255, "材料名は255文字以内で入力してください"),
           amount: z.string().max(10, "分量は10文字以内で入力してください"),
           unit: z.string(),
         })
@@ -29,38 +23,10 @@ function getBodySchema() {
           {
             message: "分量を入力してください",
             path: ["amount"],
-          }
-        )
+          },
+        ),
     ),
   });
-}
-
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-
-  let recipes: Recipe[] = [];
-  const materialName = searchParams.get("materialName");
-  if (materialName !== null && materialName !== "null") {
-    recipes = await prisma.recipe.findMany({
-      where: {
-        materials: {
-          some: {
-            name: materialName,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-  } else {
-    recipes = await prisma.recipe.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-  }
-  return new Response(JSON.stringify(recipes));
 }
 
 export async function POST(request: Request) {

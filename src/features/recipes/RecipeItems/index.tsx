@@ -2,15 +2,8 @@ import { Container } from "@/components/layouts/Container";
 import { RecipeItem } from "@/features/recipes/RecipeItem";
 import { Recipe } from "@prisma/client";
 
-interface Props {
-  recipes: Recipe[]
-  selectedMaterial: string | null;
-}
-
-export const RecipeItems: React.FC<Props> = ({ recipes, selectedMaterial }) => {
-  const params = selectedMaterial
-    ? { materialName: selectedMaterial }
-    : undefined;
+export async function RecipeItems({ promisedRecipes }: { promisedRecipes: Promise<Recipe[]> }) {
+  const recipes = await promisedRecipes;
 
   return (
     <Container>
@@ -28,4 +21,4 @@ export const RecipeItems: React.FC<Props> = ({ recipes, selectedMaterial }) => {
       )}
     </Container>
   );
-};
+}

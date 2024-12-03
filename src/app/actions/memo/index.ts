@@ -1,9 +1,9 @@
 "use server";
 
-import { Memo, PrismaClient } from "@prisma/client";
-import { revalidateTag } from "next/cache";
+import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 import { ApiError } from "@/hooks/useServerAction";
+import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
 
@@ -21,13 +21,11 @@ export async function saveMemo<P>(params: P) {
     return { error };
   }
 
-  const memo: Memo = await prisma.memo.create({
+  await prisma.memo.create({
     data: {
       text: result.data,
     },
   });
 
-  revalidateTag("memo");
-
-  return { data: memo };
+  redirect("/memo");
 }

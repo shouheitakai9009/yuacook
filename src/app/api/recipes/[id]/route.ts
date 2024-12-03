@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
 
@@ -16,10 +17,7 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
   return new Response(JSON.stringify(recipeWithMaterials));
 }
 
-export async function DELETE(
-  _: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(_: Request, { params }: { params: { id: string } }) {
   await prisma.recipe.delete({
     where: {
       id: parseInt(params.id),

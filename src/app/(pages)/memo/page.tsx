@@ -1,14 +1,14 @@
-import { MemoComponent } from '@/features/memo/components';
-import { getBaseUrl } from '@/utils/get_base_url';
+import { fetchMemo } from "@/api/memo";
+import { Spinner } from "@/components/ui/Spinner";
+import { MemoArea } from "@/features/memo/components";
+import { Suspense } from "react";
 
 export default async function MemoPage() {
-  const baseUrl = getBaseUrl()
-  const data = await fetch(`${baseUrl}/api/memos`, {
-    method: 'GET',
-    next: { revalidate: 3600, tags: ['memo'] }
-  });
+  const promisedMemo = fetchMemo();
 
-  const memo = await data.json();
-
-  return <MemoComponent memo={memo} />;
+  return (
+    <Suspense fallback={<Spinner message="メモを読み込み中です" />}>
+      <MemoArea promisedMemo={promisedMemo} />
+    </Suspense>
+  );
 }

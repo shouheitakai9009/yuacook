@@ -1,26 +1,27 @@
-import { Recipes } from "@/features/recipes";
 import { getBaseUrl } from "@/utils/get_base_url";
 import { Suspense } from "react";
-import Loading from './loading'
+import Loading from "./loading";
+import { SearchBox } from "@/features/recipes/SearchBox";
+import { RecipeItems } from "@/features/recipes/RecipeItems";
+import { Container } from "@/components/layouts/Container";
+import { fetchRecipes } from "@/api/recipes";
+import { fetchMaterials } from "@/api/materials";
 
 export default async function RecipesPage({ searchParams }: { searchParams: { materialName: string } }) {
-  const baseUrl = getBaseUrl()
-  const materialName = 'materialName' in searchParams ? searchParams.materialName : null
-  const [recipesData, materialsData] = await Promise.all([
-    await fetch(`${baseUrl}/api/recipes?materialName=${materialName}`, {
-      method: 'GET',
-      next: { revalidate: 3600, tags: ['recipes'] }
-    }),
-    await fetch(`${baseUrl}/api/materials`, {
-      method: 'GET',
-      next: { revalidate: 3600, tags: ['materials'] }
-    }),
-  ])
+  const materialName = "materialName" in searchParams ? searchParams.materialName : null;
+  const promisedRecipes = fetchRecipes(materialName);
+  const promisedMaterials = fetchMaterials();
 
-  const recipes = await recipesData.json();
-  const materials = await materialsData.json();
-
-  return <Suspense fallback={<Loading />}>
-    <Recipes recipes={recipes} materials={materials} />
-  </Suspense>;
+  return (
+    <>
+      <Suspense fallback={<Loading />}>
+        <Container className="px-4 py-2">
+          <SearchBox promisedMaterials={promisedMaterials} />
+        </Container>
+      </Suspense>
+      <Suspense fallback={<Loading />}>
+        <RecipeItems promisedRecipes={promisedRecipes} />
+      </Suspense>
+    </>
+  );
 }
