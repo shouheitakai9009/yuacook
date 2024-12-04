@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const formSchema = z.object({
   recipeName: z.string().min(1, "レシピ名を入力してください").max(255, "レシピ名は255文字以内で入力してください"),
-  image: z.custom<File>(),
+  image: z.custom<File | "undefined">(),
   materials: z.array(
     z
       .object({

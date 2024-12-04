@@ -14,6 +14,7 @@ import { z } from "zod";
 import { useContext, useMemo, useTransition } from "react";
 import { Spinner } from "@/components/ui/Spinner";
 import { RecipeContext } from ".";
+import { editRecipe } from "@/app/actions/recipes/edit";
 
 export const defaultMaterial: Material = {
   name: "",
@@ -50,7 +51,11 @@ export const Form: React.FC = () => {
       formData.append("recipeName", values.recipeName);
       formData.append("image", values.image instanceof FileList ? values.image[0] : values.image);
       formData.append("materials", JSON.stringify(values.materials));
-      await createRecipe(formData, recipe.isEdit);
+      if (recipe.isEdit) {
+        await editRecipe(formData, recipe.data?.id ?? -1);
+      } else {
+        await createRecipe(formData);
+      }
       form.reset();
     });
   };

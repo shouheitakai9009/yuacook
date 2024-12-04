@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
 
-export async function createRecipe(formData: FormData) {
+export async function editRecipe(formData: FormData, recipeId: number) {
   const validatedData = formSchema.safeParse({
     recipeName: formData.get("recipeName"),
     image: formData.get("image"),
@@ -19,10 +19,13 @@ export async function createRecipe(formData: FormData) {
     return validatedData.error;
   }
 
+  const recipe = await prisma.recipe.findUnique({ where: { id: recipeId } });
+  if (!recipe) return "レシピが見つかりませんでした。";
+
   const { recipeName, image, materials } = validatedData.data;
 
-  // 画像アップロード
-  let imageUrl = "";
+  // 画像アップロード (画像がない場合は更新前の画像データを引き続き使う)
+  let imageUrl = recipe.imageUrl;
   if (image !== "undefined") {
     const blob = await put(image.name, image, {
       access: "public",
@@ -30,15 +33,13 @@ export async function createRecipe(formData: FormData) {
     imageUrl = blob.url;
   }
 
-  const newRecipe = await prisma.recipe.create({
-    data: {
-      name: recipeName,
-      imageUrl,
-    },
+  // 材料テーブルはdelete/insert
+  await prisma.material.deleteMany({
+    where: { recipeId },
   });
   await prisma.material.createMany({
     data: materials.map((m) => ({
-      recipeId: newRecipe.id,
+      recipeId,
       name: m.name,
       isToTaste: m.unit === TO_TASTE_NAME,
       amount: m.amount,
@@ -46,7 +47,15 @@ export async function createRecipe(formData: FormData) {
     })),
   });
 
-  revalidatePath("/recipes");
-  revalidateTag("recipes");
-  redirect("/recipes");
+  const newRecipe = await prisma.recipe.update({
+    data: {
+      name: recipeName,
+      imageUrl,
+    },
+    where: { id: recipeId },
+  });
+
+  revalidatePath(`/recipes/${recipeId}`);
+  revalidateTag("materials");
+  redirect(`/recipes/${recipeId}`);
 }
