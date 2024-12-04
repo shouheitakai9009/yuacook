@@ -11,10 +11,10 @@ import {
 import { Popover as ShadPopover, PopoverContent, PopoverTrigger } from "@/components/shadcn/ui/popover";
 import * as React from "react";
 import { Button } from "@/components/shadcn/ui/button";
-import { ChevronsUpDown, CircleX, RefreshCcw } from "lucide-react";
+import { ChevronsUpDown, RefreshCcw } from "lucide-react";
 import { useMemo, useState, useTransition } from "react";
 import { Material } from "@prisma/client";
-import { handleSelectMaterial } from "@/app/actions/recipes";
+import { handleSelectMaterial } from "@/app/actions/materials";
 import { useSearchParams } from "next/navigation";
 import { Spinner } from "@/components/ui/Spinner";
 import Link from "next/link";

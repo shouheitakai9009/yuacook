@@ -1,5 +1,5 @@
 import { Container } from "@/components/layouts/Container";
-import { RecipeItem } from "@/features/recipes/RecipeItem";
+import { RecipeItem } from "@/features/recipes/components/RecipeItem";
 import { Recipe } from "@prisma/client";
 
 export async function RecipeItems({ promisedRecipes }: { promisedRecipes: Promise<Recipe[]> }) {

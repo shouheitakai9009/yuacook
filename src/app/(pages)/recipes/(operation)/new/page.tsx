@@ -1,4 +1,4 @@
-import { Form } from "./(form)";
+import { Form } from "@/features/recipeNewAndEdit/components/(form)";
 
 export default function RecipesNewPage() {
   return (

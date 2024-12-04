@@ -5,12 +5,14 @@ import { Form as ShadForm } from "@/components/shadcn/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormType, formSchema } from "./schema";
-import { RecipeNameField } from "./(fields)/RecipeNameField";
-import { ImageUploadField } from "./(fields)/ImageUploadField";
+import { RecipeNameField } from "./fields/RecipeNameField";
+import { ImageUploadField } from "./fields/ImageUploadField";
 import { Material } from "@/types/material";
-import { MaterialsField } from "./(fields)/(materials)";
-import { Spinner, SpinnerWrapper } from "@/components/ui/Spinner";
-import { useRegistration } from "./useRegister";
+import { MaterialsField } from "./fields/materials";
+import { createRecipe } from "@/app/actions/recipes/create";
+import { z } from "zod";
+import { useTransition } from "react";
+import { Spinner } from "@/components/ui/Spinner";
 
 export const defaultMaterial: Material = {
   name: "",
@@ -18,7 +20,8 @@ export const defaultMaterial: Material = {
   unit: "g",
 };
 
-export const Form: React.FC = ({}) => {
+export const Form: React.FC = () => {
+  const [isPending, startTransition] = useTransition();
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -27,7 +30,16 @@ export const Form: React.FC = ({}) => {
     },
   });
 
-  const { isLoading, onSubmit } = useRegistration();
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    startTransition(async () => {
+      const formData = new FormData();
+      formData.append("recipeName", values.recipeName);
+      formData.append("image", values.image instanceof FileList ? values.image[0] : values.image);
+      formData.append("materials", JSON.stringify(values.materials));
+      await createRecipe(formData);
+      form.reset();
+    });
+  };
 
   return (
     <ShadForm {...form}>
@@ -41,9 +53,7 @@ export const Form: React.FC = ({}) => {
           </Button>
         </div>
       </form>
-      <SpinnerWrapper>
-        {isLoading && <Spinner message="レシピを作成中です..." />}
-      </SpinnerWrapper>
+      {isPending && <Spinner message="レシピを作成中です..." />}
     </ShadForm>
   );
 };

@@ -1,31 +1,12 @@
 "use client";
 
 import { Button } from "@/components/shadcn/ui/button";
-import {
-  Form as ShadForm,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/shadcn/ui/form";
-import { Input } from "@/components/shadcn/ui/input";
-import { UseFormReturn, useFieldArray, useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/shadcn/ui/select";
+import { FormItem, FormLabel } from "@/components/shadcn/ui/form";
+import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { Trash } from "lucide-react";
 import { cn } from "@/libs/utils";
-import { TextField } from "@/components/ui/TextField";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
-import { useFetchUnits } from "@/hooks/useFetchUnits";
-import { FormType, formSchema } from "../../schema";
+import { FormType } from "../../schema";
 import { Material } from "@/types/material";
 import { defaultMaterial } from "../..";
 import { NameField } from "./NameField";
@@ -47,10 +28,7 @@ const FieldWrapper = ({
 }>): React.JSX.Element => (
   <div
     key={index}
-    className={cn(
-      "pb-1 grid gap-1",
-      isLast ? "grid-cols-[1fr_56px_96px_auto]" : "grid-cols-[1fr_56px_96px]"
-    )}
+    className={cn("pb-1 grid gap-1", isLast ? "grid-cols-[1fr_56px_96px_auto]" : "grid-cols-[1fr_56px_96px]")}
   >
     {children}
   </div>
@@ -66,17 +44,13 @@ export const MaterialsField: React.FC<Props> = ({ form }) => {
     (index: number) => {
       const isLast = fields.length > 1 && fields.length - 1 === index;
       const errors = form.formState.errors.materials?.[index];
-      const messages = errors
-        ? Object.keys(errors).map(
-            (key) => errors[key as keyof Material]?.message ?? ""
-          )
-        : [];
+      const messages = errors ? Object.keys(errors).map((key) => errors[key as keyof Material]?.message ?? "") : [];
       return {
         isLast,
         messages,
       };
     },
-    [fields.length, form.formState.errors.materials]
+    [fields.length, form.formState.errors.materials],
   );
 
   return (
@@ -91,11 +65,7 @@ export const MaterialsField: React.FC<Props> = ({ form }) => {
               <AmountField index={index} form={form} />
               <UnitField index={index} form={form} />
               {isLast && (
-                <Button
-                  type="button"
-                  className="bg-red-400"
-                  onClick={() => remove(index)}
-                >
+                <Button type="button" className="bg-red-400" onClick={() => remove(index)}>
                   <Trash size={14} />
                 </Button>
               )}
@@ -105,11 +75,7 @@ export const MaterialsField: React.FC<Props> = ({ form }) => {
         );
       })}
       <div className="flex justify-center">
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={() => append(defaultMaterial)}
-        >
+        <Button type="button" variant="ghost" onClick={() => append(defaultMaterial)}>
           食材を追加
         </Button>
       </div>
