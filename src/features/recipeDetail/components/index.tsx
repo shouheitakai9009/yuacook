@@ -13,14 +13,10 @@ export async function RecipeDetail({
   promisedRecipe: Promise<(Recipe & { materials: Material[] }) | null>;
 }) {
   const recipe = await promisedRecipe;
-  // const { isLoading: isDeleting, onDelete } = useDelete();
 
   return (
     <Container className="py-4 flex flex-col gap-y-4">
-      {/* <SpinnerWrapper>{isDeleting && <Spinner message="レシピを削除中です..." />}</SpinnerWrapper> */}
-
       <Breadcrumb name={recipe?.name ?? ""} />
-
       <h1 className="text-2xl font-bold">{recipe?.name}</h1>
       <AspectRatio ratio={4 / 3} className="overflow-hidden flex items-center justify-center rounded-sm">
         <Image
@@ -32,7 +28,7 @@ export async function RecipeDetail({
         />
       </AspectRatio>
       <Materials materials={recipe?.materials ?? []} />
-      <DeleteDialog />
+      <DeleteDialog id={recipe?.id ?? -1} />
     </Container>
   );
 }

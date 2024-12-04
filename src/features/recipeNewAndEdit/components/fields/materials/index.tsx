@@ -8,7 +8,7 @@ import { cn } from "@/libs/utils";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { FormType } from "../../schema";
 import { Material } from "@/types/material";
-import { defaultMaterial } from "../..";
+import { defaultMaterial } from "../../Form";
 import { NameField } from "./NameField";
 import { AmountField } from "./AmountField";
 import { UnitField } from "./UnitField";

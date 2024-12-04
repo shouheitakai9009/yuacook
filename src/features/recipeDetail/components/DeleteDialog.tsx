@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteRecipe } from "@/app/actions/recipes/delete";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,10 +13,15 @@ import {
   AlertDialogTrigger,
 } from "@/components/shadcn/ui/alert-dialog";
 import { Button } from "@/components/shadcn/ui/button";
+import { Spinner, SpinnerWrapper } from "@/components/ui/Spinner";
+import { useTransition } from "react";
 
-interface Props {}
+interface Props {
+  id: number;
+}
 
-export const DeleteDialog: React.FC<Props> = () => {
+export const DeleteDialog: React.FC<Props> = ({ id }) => {
+  const [isPending, startTransition] = useTransition();
   return (
     <AlertDialog>
       <AlertDialogTrigger>
@@ -32,9 +38,10 @@ export const DeleteDialog: React.FC<Props> = () => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>キャンセル</AlertDialogCancel>
-          <AlertDialogAction>削除する</AlertDialogAction>
+          <AlertDialogAction onClick={() => startTransition(() => deleteRecipe(id))}>削除する</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
+      <SpinnerWrapper>{isPending && <Spinner message="レシピを削除中です..." />}</SpinnerWrapper>
     </AlertDialog>
   );
 };

@@ -1,7 +1,7 @@
 "use server";
 
 import { TO_TASTE_NAME } from "@/constants/ui";
-import { formSchema } from "@/features/recipeNewAndEdit/components/(form)/schema";
+import { formSchema } from "@/features/recipeNewAndEdit/components/schema";
 import { PrismaClient } from "@prisma/client";
 import { put } from "@vercel/blob";
 import { revalidatePath, revalidateTag } from "next/cache";

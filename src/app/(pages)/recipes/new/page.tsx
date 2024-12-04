@@ -1,10 +1,14 @@
-import { Form } from "@/features/recipeNewAndEdit/components/(form)";
+import { fetchUnits } from "@/api/units";
+import { Suspense } from "react";
+import Loading from "../[id]/loading";
+import { RecipeNewAndEdit } from "@/features/recipeNewAndEdit/components";
 
 export default function RecipesNewPage() {
+  const promisedUnits = fetchUnits();
+
   return (
-    <div className="px-4 pt-4">
-      <h1 className="text-2xl">新しいレシピを作る</h1>
-      <Form />
-    </div>
+    <Suspense fallback={<Loading />}>
+      <RecipeNewAndEdit promisedUnits={promisedUnits} />
+    </Suspense>
   );
 }

@@ -1,17 +1,19 @@
+"use server";
+
 import { PrismaClient } from "@prisma/client";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
 
-export async function DELETE(_: Request, { params }: { params: { id: string } }) {
+export async function deleteRecipe(recipeId: number) {
   await prisma.recipe.delete({
     where: {
-      id: parseInt(params.id),
+      id: recipeId,
     },
   });
 
   revalidatePath("/recipes");
   revalidateTag("recipes");
-  revalidateTag("materials");
-  return new Response(JSON.stringify({}));
+  redirect("/recipes");
 }
