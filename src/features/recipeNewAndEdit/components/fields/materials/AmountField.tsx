@@ -30,7 +30,7 @@ export const AmountField: React.FC<Props> = ({ index, form }) => {
             <TextField
               placeholder="分量"
               hasError={!!fieldState.error}
-              className="w-14"
+              className="w-16"
               disabled={isToTaste}
               {...form.register(`materials.${index}.amount`)}
             />

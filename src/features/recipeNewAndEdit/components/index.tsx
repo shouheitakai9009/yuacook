@@ -1,20 +1,35 @@
 "use client";
 
-import { Unit } from "@prisma/client";
+import { Material, Recipe, Unit } from "@prisma/client";
 import { Form } from "@/features/recipeNewAndEdit/components/Form";
 import React, { createContext } from "react";
 
+export const RecipeContext = createContext<{
+  isEdit: boolean;
+  data: (Recipe & { materials: Material[] }) | null;
+}>({
+  isEdit: false,
+  data: null,
+});
 export const UnitsContext = createContext<Unit[]>([]);
 
-export async function RecipeNewAndEdit({ promisedUnits }: { promisedUnits: Promise<Unit[]> }) {
+interface Props {
+  promisedRecipe: Promise<(Recipe & { materials: Material[] }) | null>;
+  promisedUnits: Promise<Unit[]>;
+}
+
+export async function RecipeNewAndEdit({ promisedRecipe, promisedUnits }: Props) {
+  const recipe = await promisedRecipe;
   const units = await promisedUnits;
 
   return (
-    <div className="px-4 pt-4">
-      <h1 className="text-2xl">新しいレシピを作る</h1>
+    <RecipeContext.Provider value={{ isEdit: !!recipe, data: recipe }}>
       <UnitsContext.Provider value={units}>
-        <Form />
+        <div className="px-4 pt-6">
+          <h1 className="text-3xl">{!!recipe ? "レシピを編集する" : "新しいレシピを作る"}</h1>
+          <Form />
+        </div>
       </UnitsContext.Provider>
-    </div>
+    </RecipeContext.Provider>
   );
 }

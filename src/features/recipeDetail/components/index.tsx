@@ -18,15 +18,13 @@ export async function RecipeDetail({
     <Container className="py-4 flex flex-col gap-y-4">
       <Breadcrumb name={recipe?.name ?? ""} />
       <h1 className="text-2xl font-bold">{recipe?.name}</h1>
-      <AspectRatio ratio={4 / 3} className="overflow-hidden flex items-center justify-center rounded-sm">
-        <Image
-          src={recipe?.imageUrl && !isEmpty(recipe?.imageUrl) ? recipe.imageUrl : "/images/noimage.png"}
-          alt={recipe?.name ?? ""}
-          width={400}
-          height={200}
-          className="object-cover aspect-auto rounded-sm"
-        />
-      </AspectRatio>
+      <Image
+        src={recipe?.imageUrl && !isEmpty(recipe?.imageUrl) ? recipe.imageUrl : "/images/noimage.png"}
+        alt={recipe?.name ?? ""}
+        width={400}
+        height={300}
+        className="object-cover aspect-[4/3] w-full rounded-sm"
+      />
       <Materials materials={recipe?.materials ?? []} />
       <DeleteDialog id={recipe?.id ?? -1} />
     </Container>

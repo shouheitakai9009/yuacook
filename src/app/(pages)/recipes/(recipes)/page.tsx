@@ -12,15 +12,11 @@ export default async function RecipesPage({ searchParams }: { searchParams: { ma
   const promisedMaterials = fetchMaterials();
 
   return (
-    <>
-      <Suspense fallback={<Loading />}>
-        <Container className="px-4 py-2">
-          <SearchBox promisedMaterials={promisedMaterials} />
-        </Container>
-      </Suspense>
-      <Suspense fallback={<Loading />}>
-        <RecipeItems promisedRecipes={promisedRecipes} />
-      </Suspense>
-    </>
+    <Suspense fallback={<Loading />}>
+      <Container className="px-4 py-2">
+        <SearchBox promisedMaterials={promisedMaterials} />
+      </Container>
+      <RecipeItems promisedRecipes={promisedRecipes} />
+    </Suspense>
   );
 }

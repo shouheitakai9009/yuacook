@@ -28,7 +28,7 @@ const FieldWrapper = ({
 }>): React.JSX.Element => (
   <div
     key={index}
-    className={cn("pb-1 grid gap-1", isLast ? "grid-cols-[1fr_56px_96px_auto]" : "grid-cols-[1fr_56px_96px]")}
+    className={cn("pb-1 grid gap-1", isLast ? "grid-cols-[1fr_auto_auto_auto]" : "grid-cols-[1fr_auto_auto]")}
   >
     {children}
   </div>
@@ -65,8 +65,8 @@ export const MaterialsField: React.FC<Props> = ({ form }) => {
               <AmountField index={index} form={form} />
               <UnitField index={index} form={form} />
               {isLast && (
-                <Button type="button" className="bg-red-400" onClick={() => remove(index)}>
-                  <Trash size={14} />
+                <Button type="button" className="px-2" variant="ghost" onClick={() => remove(index)}>
+                  <Trash size={20} />
                 </Button>
               )}
             </FieldWrapper>

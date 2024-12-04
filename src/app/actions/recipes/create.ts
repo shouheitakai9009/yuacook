@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
 
-export async function createRecipe(formData: FormData) {
+export async function createRecipe(formData: FormData, isEdit: boolean) {
   const validatedData = formSchema.safeParse({
     recipeName: formData.get("recipeName"),
     image: formData.get("image"),
