@@ -1,4 +1,3 @@
-import { Container } from "@/components/layouts/Container";
 import { RecipeItem } from "@/features/recipes/components/RecipeItem";
 import { Recipe } from "@prisma/client";
 
@@ -6,12 +5,12 @@ export async function RecipeItems({ promisedRecipes }: { promisedRecipes: Promis
   const recipes = await promisedRecipes;
 
   return (
-    <Container>
-      <div className="grid grid-cols-2 gap-x-2 gap-y-2">
+    <>
+      <section className="grid grid-cols-2 gap-x-2 gap-y-2">
         {recipes.map((recipe, index) => (
           <RecipeItem key={index} recipe={recipe} />
         ))}
-      </div>
+      </section>
       {recipes.length === 0 && (
         <p className="flex justify-center items-center h-[80vh] text-sm text-gray-500">
           右上の＋アイコンを押して、
@@ -19,6 +18,6 @@ export async function RecipeItems({ promisedRecipes }: { promisedRecipes: Promis
           自分だけのレシピを登録しよう
         </p>
       )}
-    </Container>
+    </>
   );
 }

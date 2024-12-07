@@ -1,3 +1,4 @@
+import { Container } from "@/components/layouts/Container";
 import { Header } from "@/components/layouts/Header";
 
 export default function RecipesLayout({
@@ -8,7 +9,7 @@ export default function RecipesLayout({
   return (
     <main className="grid grid-rows-[48px_1fr] h-[100vh] overflow-hidden">
       <Header />
-      <article className="pb-4 overflow-y-auto">{children}</article>
+      <Container className="py-4 overflow-y-auto">{children}</Container>
     </main>
   );
 }

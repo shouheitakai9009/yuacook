@@ -13,10 +13,10 @@ export default async function RecipesPage({ searchParams }: { searchParams: { ma
 
   return (
     <Suspense fallback={<Loading />}>
-      <Container className="px-4 py-2">
+      <div className="flex flex-col gap-y-2">
         <SearchBox promisedMaterials={promisedMaterials} />
-      </Container>
-      <RecipeItems promisedRecipes={promisedRecipes} />
+        <RecipeItems promisedRecipes={promisedRecipes} />
+      </div>
     </Suspense>
   );
 }
