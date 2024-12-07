@@ -1,45 +1,12 @@
-# yuacook
+`yua cook` provides to create your recipes, materials or step.
+Curently my wife uses only, because it is not exist for features login, register and authentication etc...
+If I will have motivation, it would provide all people.
 
-yuacook は、ゆあという個人の専用アプリで料理を記録することができます。
-特徴的なのは、食材データベースを自分で構築していくということです。
-これはつまり、自分が作った料理の食材しか検索できないということにもなり、自分だけのレシピデータベースにもなるということです。
-
-## Pain
-
-- 既存のレシピアプリは食材で検索すると全ての食材がヒットしてしまう
-- 食材検索すると、自分が知らないレシピがたくさん出てきてしまう
-
-## 要件
-
-- 自分の登録した食材のみ検索可能
-- 自分の登録した食材で検索すると、自分の登録したレシピを検索可能
-
-## 画面
-
-- レシピ一覧 `recipes`
-  - 食材検索バー
-    - フォーカスで食材一覧ナビゲーション出現
-    - 食材タップ（複数可能）で、検索バーにタグが切られる
-    - レシピ一覧をフィルタリングする
-  - レシピ一覧（無限スクロール）
-- レシピ登録 `recipes/add`
-- レシピ編集 `recipes/edit`
-
-  - [必須] レシピ名 textfield
-  - レシピ画像 file
-  - [1 つ以上必須] レシピ項目（複数） section
-    - [必須] 食材名 textfield
-    - [必須] 量 textfield
-    - [必須] 単位 select
-  - 項目追加ボタン button
-  - レシピ登録ボタン
-
-- レシピ詳細 `recipes/{id}`
-
-## 技術スタック
-
-- Next.js App router
-- 1 人しか使わないので認証は行わない
-- `DB`
-- `Fetching` FetchAPI
-- `Server Side` Next.js
+## stack
+- nextjs v14
+- DB / `mysql` on vercel
+- ORM / `prisma`
+- Design / `shadcn/ui` and `tailwind`
+- Icon / `lucide`
+- Validation / `zod`
+- Form / `react-hook-form`
