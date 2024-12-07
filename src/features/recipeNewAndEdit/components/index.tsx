@@ -14,12 +14,12 @@ export const RecipeContext = createContext<{
 export const UnitsContext = createContext<Unit[]>([]);
 
 interface Props {
-  promisedRecipe: Promise<(Recipe & { materials: Material[] }) | null>;
+  promisedRecipe?: Promise<(Recipe & { materials: Material[] }) | null>;
   promisedUnits: Promise<Unit[]>;
 }
 
 export async function RecipeNewAndEdit({ promisedRecipe, promisedUnits }: Props) {
-  const recipe = await promisedRecipe;
+  const recipe = !!promisedRecipe ? await promisedRecipe : null;
   const units = await promisedUnits;
 
   return (
