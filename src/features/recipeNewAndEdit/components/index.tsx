@@ -25,10 +25,8 @@ export async function RecipeNewAndEdit({ promisedRecipe, promisedUnits }: Props)
   return (
     <RecipeContext.Provider value={{ isEdit: !!recipe, data: recipe }}>
       <UnitsContext.Provider value={units}>
-        <div className="px-4 pt-6 overflow-y-auto">
-          <h1 className="text-3xl">{!!recipe ? "レシピを編集する" : "新しいレシピを作る"}</h1>
-          <Form />
-        </div>
+        <h1 className="text-3xl">{!!recipe ? "レシピを編集する" : "新しいレシピを作る"}</h1>
+        <Form />
       </UnitsContext.Provider>
     </RecipeContext.Provider>
   );

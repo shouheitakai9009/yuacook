@@ -1,3 +1,4 @@
+import { Container } from "@/components/layouts/Container";
 import { Header } from "@/components/layouts/Header";
 import { Button } from "@/components/shadcn/ui/button";
 import { redirect } from "next/navigation";
@@ -24,7 +25,7 @@ export default async function RecipeDetailLayout({
           </form>
         }
       />
-      {children}
+      <Container className="overflow-y-auto py-4">{children}</Container>
     </main>
   );
 }

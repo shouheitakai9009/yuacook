@@ -1,9 +1,8 @@
-import { Container } from "@/components/layouts/Container";
 import { Skeleton } from "@/components/shadcn/ui/skeleton";
 
 export default function Loading() {
   return (
-    <Container className="py-4 flex flex-col gap-y-4">
+    <div className="flex flex-col gap-y-4">
       <Skeleton className="w-[80%] h-7" />
       <Skeleton className="w-[60%] h-8" />
       <Skeleton className="w-full h-80" />
@@ -18,6 +17,6 @@ export default function Loading() {
       <div className="flex justify-center">
         <Skeleton className="w-[50%] h-12" />
       </div>
-    </Container>
+    </div>
   );
 }

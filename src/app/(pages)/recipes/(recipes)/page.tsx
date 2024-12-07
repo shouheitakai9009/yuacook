@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import Loading from "./loading";
 import { SearchBox } from "@/features/recipes/components/SearchBox";
 import { RecipeItems } from "@/features/recipes/components/RecipeItems";
-import { Container } from "@/components/layouts/Container";
 import { fetchRecipes } from "@/api/recipes";
 import { fetchMaterials } from "@/api/materials";
 

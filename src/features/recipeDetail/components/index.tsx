@@ -15,7 +15,7 @@ export async function RecipeDetail({
   const recipe = await promisedRecipe;
 
   return (
-    <Container className="py-4 flex flex-col gap-y-4 overflow-y-auto">
+    <div className="flex flex-col gap-y-4">
       <Breadcrumb name={recipe?.name ?? ""} />
       <h1 className="text-2xl font-bold">{recipe?.name}</h1>
       <Image
@@ -27,6 +27,6 @@ export async function RecipeDetail({
       />
       <Materials materials={recipe?.materials ?? []} />
       <DeleteDialog id={recipe?.id ?? -1} />
-    </Container>
+    </div>
   );
 }
