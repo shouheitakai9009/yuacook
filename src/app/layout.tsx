@@ -6,6 +6,7 @@ import { cn } from "@/libs/utils";
 import { QueryClientProvider } from "@/providers/QueryClientProvider";
 import { ToastProvider } from "@/providers/ToastProvider";
 import { RegisterServiceWorker } from "./RegisterServiceWorker";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
