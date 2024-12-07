@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/libs/utils";
 import { QueryClientProvider } from "@/providers/QueryClientProvider";
 import { ToastProvider } from "@/providers/ToastProvider";
+import { RegisterServiceWorker } from "./RegisterServiceWorker";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,16 +30,12 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={cn(inter.className, "bg-gray-50")}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <QueryClientProvider>
             <ToastProvider>{children}</ToastProvider>
           </QueryClientProvider>
         </ThemeProvider>
+        <RegisterServiceWorker />
       </body>
     </html>
   );
