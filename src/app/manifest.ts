@@ -2,14 +2,14 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    theme_color: "#facc15",
-    background_color: "#ffffff",
-    display: "fullscreen",
-    scope: "/",
-    start_url: "/",
     name: "yuacook",
     short_name: "yuacook",
     description: "優愛のための料理レシピ管理アプリです。",
+    theme_color: "#facc15",
+    background_color: "#ffffff",
+    display: "standalone",
+    scope: "/",
+    start_url: "/",
     icons: [
       {
         src: "/icon-192x192.png",

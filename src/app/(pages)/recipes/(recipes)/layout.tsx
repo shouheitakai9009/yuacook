@@ -6,9 +6,9 @@ export default function RecipesLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main>
+    <main className="grid grid-rows-[48px_1fr] h-[100vh] overflow-hidden">
       <Header />
-      <article className="pb-4">{children}</article>
+      <article className="pb-4 overflow-y-auto">{children}</article>
     </main>
   );
 }
