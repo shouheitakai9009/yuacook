@@ -26,6 +26,7 @@ export const ImageUploadField: React.FC<Props> = ({ form }) => {
         }
       };
       reader.readAsDataURL(files[0]);
+      form.setValue("image", files[0]);
     } else {
       setPreviewImage(null);
     }
