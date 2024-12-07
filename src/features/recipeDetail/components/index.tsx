@@ -6,6 +6,8 @@ import { Material, Recipe } from "@prisma/client";
 import { Breadcrumb } from "./Breadcrumb";
 import { Materials } from "./Materials";
 import { DeleteDialog } from "./DeleteDialog";
+import { Textarea } from "@/components/shadcn/ui/textarea";
+import { MemoArea } from "./MemoArea";
 
 export async function RecipeDetail({
   promisedRecipe,
@@ -26,6 +28,7 @@ export async function RecipeDetail({
         className="object-cover aspect-[4/3] w-full rounded-sm"
       />
       <Materials materials={recipe?.materials ?? []} />
+      <MemoArea memo={recipe?.memo ?? ""} />
       <DeleteDialog id={recipe?.id ?? -1} />
     </div>
   );

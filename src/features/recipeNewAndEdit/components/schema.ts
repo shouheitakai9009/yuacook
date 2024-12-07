@@ -21,6 +21,7 @@ export const formSchema = z.object({
         },
       ),
   ),
+  memo: z.string(),
 });
 
 export type FormType = z.infer<typeof formSchema>;

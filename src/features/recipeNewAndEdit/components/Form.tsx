@@ -15,6 +15,7 @@ import { useContext, useMemo, useTransition } from "react";
 import { Spinner } from "@/components/ui/Spinner";
 import { RecipeContext } from ".";
 import { editRecipe } from "@/app/actions/recipes/edit";
+import { MemoField } from "./fields/MemoField";
 
 export const defaultMaterial: Material = {
   name: "",
@@ -36,11 +37,13 @@ export const Form: React.FC = () => {
             amount: m.amount ?? "",
             unit: m.unitName,
           })),
+          memo: recipe.data?.memo ?? "",
         };
       }
       return {
         recipeName: "",
         materials: [defaultMaterial],
+        memo: "",
       };
     }, [recipe]),
   });
@@ -51,6 +54,7 @@ export const Form: React.FC = () => {
       formData.append("recipeName", values.recipeName);
       formData.append("image", values.image instanceof FileList ? values.image[0] : values.image);
       formData.append("materials", JSON.stringify(values.materials));
+      formData.append("memo", values.memo);
       if (recipe.isEdit) {
         await editRecipe(formData, recipe.data?.id ?? -1);
       } else {
@@ -66,6 +70,7 @@ export const Form: React.FC = () => {
         <RecipeNameField form={form} />
         <ImageUploadField form={form} />
         <MaterialsField form={form} />
+        <MemoField form={form} />
         <div className="py-6 flex justify-center">
           <Button type="submit" size="lg">
             {recipe.isEdit ? "レシピを編集して保存する" : "新しいレシピを作る"}

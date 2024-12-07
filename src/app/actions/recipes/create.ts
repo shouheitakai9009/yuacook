@@ -14,12 +14,13 @@ export async function createRecipe(formData: FormData) {
     recipeName: formData.get("recipeName"),
     image: formData.get("image"),
     materials: JSON.parse(formData.get("materials")?.toString() ?? ""),
+    memo: formData.get("memo"),
   });
   if (!validatedData.success) {
     return validatedData.error;
   }
 
-  const { recipeName, image, materials } = validatedData.data;
+  const { recipeName, image, materials, memo } = validatedData.data;
 
   // 画像アップロード
   let imageUrl = "";
@@ -34,6 +35,7 @@ export async function createRecipe(formData: FormData) {
     data: {
       name: recipeName,
       imageUrl,
+      memo,
     },
   });
   await prisma.material.createMany({

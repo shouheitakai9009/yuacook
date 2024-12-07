@@ -19,6 +19,7 @@ model Recipe {
   name String @db.VarChar(255)
   imageUrl String? @db.Text
   materials Material[]
+  memo String? @db.Text @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -44,11 +45,4 @@ model Unit {
   updatedAt DateTime @updatedAt
 
   @@unique([name])
-}
-
-model Memo {
-  id Int @id @default(autoincrement())
-  text String @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }

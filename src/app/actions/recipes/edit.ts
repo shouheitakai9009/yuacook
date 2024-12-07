@@ -14,6 +14,7 @@ export async function editRecipe(formData: FormData, recipeId: number) {
     recipeName: formData.get("recipeName"),
     image: formData.get("image"),
     materials: JSON.parse(formData.get("materials")?.toString() ?? ""),
+    memo: formData.get("memo"),
   });
   if (!validatedData.success) {
     return validatedData.error;
@@ -22,7 +23,7 @@ export async function editRecipe(formData: FormData, recipeId: number) {
   const recipe = await prisma.recipe.findUnique({ where: { id: recipeId } });
   if (!recipe) return "レシピが見つかりませんでした。";
 
-  const { recipeName, image, materials } = validatedData.data;
+  const { recipeName, image, materials, memo } = validatedData.data;
 
   // 画像アップロード (画像がない場合は更新前の画像データを引き続き使う)
   let imageUrl = recipe.imageUrl;
@@ -51,6 +52,7 @@ export async function editRecipe(formData: FormData, recipeId: number) {
     data: {
       name: recipeName,
       imageUrl,
+      memo,
     },
     where: { id: recipeId },
   });
